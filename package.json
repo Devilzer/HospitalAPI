@@ -1,0 +1,14 @@
+{
+  "name": "hospitalapi",
+  "version": "1.0.0",
+  "description": "a api for doctor to keep track of covid status of patients",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Deepak Jena",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
