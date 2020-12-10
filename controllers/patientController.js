@@ -70,9 +70,11 @@ module.exports.allreports = async(req,res)=>{
     try {
         const patient =await Patients.findOne({phone:req.params.phone});
         if(patient){
-            console.log(patient);
+            
+            const report = await Reports.find({patient_name:patient.name});
             return res.status(200).json({
-                message:"report all success"
+                message:" all report success",
+                reports : report
             });
         }
         else{
