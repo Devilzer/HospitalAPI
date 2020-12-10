@@ -1,6 +1,6 @@
 # HospitalAPI
 
-A basic API to keep track of patients covid status and generate reports for them. 
+A basic API to keep track of patients' covid status and generate reports for them. 
 
 ## Features
 
