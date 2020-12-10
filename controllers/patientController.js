@@ -10,7 +10,7 @@ module.exports.register=async(req,res)=>{
         patient.phone = req.body.phone;
         await patient.save();
         return res.status(200).json({
-            message:"Success patient Created!"
+            message:"Success patient registered!"
         });
     } catch (error) {
         return res.status(400).json({

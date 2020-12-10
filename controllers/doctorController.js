@@ -1,7 +1,6 @@
 const Doctors = require("../models/doctors");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-let refreshTokenlist = [];
 
 //doctor sign up meathod
 module.exports.register =async (req,res)=>{
@@ -41,14 +40,10 @@ module.exports.login = async(req,res)=>{
             const accessToken = jwt.sign(payload,process.env.ACCESS_TOKEN_SECERT,{
                 expiresIn : "1d"
             });
-            const refreshToken = jwt.sign(payload,process.env.REFRESH_TOKEN_SECRET,{
-                expiresIn : "1d"
-            });
-            refreshTokenlist.push(refreshToken);
+           
             return res.status(200).json({
                 message:"login success!!",
-                AccessToken :accessToken,
-                RefreshToken :refreshToken
+                AccessToken :accessToken
             });
         }
         else{
