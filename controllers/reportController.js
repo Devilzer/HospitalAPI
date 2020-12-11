@@ -18,7 +18,7 @@ module.exports.status = async(req,res)=>{
         const report =await Reports.find({status :status});
         // console.log(report);
         return res.status(200).json({
-            message: "Success",
+            message: `Reports with status ${status} generated`,
             reports : report
         })
     } catch (error) {

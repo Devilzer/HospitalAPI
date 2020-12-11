@@ -17,7 +17,9 @@ module.exports.register =async (req,res)=>{
         }else{
             await doctor.save();
         return res.status(200).json({
-            message : "user created!"
+            message : "user Registered!",
+            details : doctor
+
         });
         }  
     } catch (error) {
@@ -42,13 +44,13 @@ module.exports.login = async(req,res)=>{
             });
            
             return res.status(200).json({
-                message:"login success!!",
+                message:"login success here is your token.",
                 AccessToken :accessToken
             });
         }
         else{
             return res.status(401).json({
-                message:"Invalid username or Password"
+                message:"Invalid username or Password!"
             });
         }
     } catch (error) {

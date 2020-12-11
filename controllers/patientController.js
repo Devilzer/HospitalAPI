@@ -73,7 +73,7 @@ module.exports.allreports = async(req,res)=>{
             
             const report = await Reports.find({patient_name:patient.name});
             return res.status(200).json({
-                message:" all report success",
+                message:" all reports generated ",
                 reports : report
             });
         }
