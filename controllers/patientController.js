@@ -4,13 +4,20 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 //method for registering patients to database
 module.exports.register=async(req,res)=>{
-    try {
+    try { 
+        const oldPatient =await Patients.findOne({name : req.body.name,phone:req.body.phone});
+        if(oldPatient){
+            return res.status(409).json({
+                message : "Patient already exits with same details"
+            });
+        }
         const patient = new Patients;
         patient.name = req.body.name;
         patient.phone = req.body.phone;
         await patient.save();
         return res.status(200).json({
-            message:"Success patient registered!"
+            message:"Success patient registered!",
+            details :patient
         });
     } catch (error) {
         return res.status(400).json({
