@@ -15,6 +15,11 @@ module.exports.status = async(req,res)=>{
         else if(req.params.status=="PA"){
             status = "Positive-Admit"
         }
+        if(status===""){
+            return res.status(400).json({
+                message : "Please enter correct status"
+            });
+        }
         const report =await Reports.find({status :status});
         // console.log(report);
         return res.status(200).json({
