@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 10000"
   },
   "author": "Deepak Jena",
   "license": "ISC",
@@ -15,5 +15,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.5",
     "nodemon": "^2.0.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.2.1"
   }
 }
