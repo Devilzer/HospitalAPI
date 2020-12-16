@@ -154,4 +154,69 @@ describe("Patients",()=>{
     });
 
 
+    //tests for patients all reports
+    describe("/GET /api/v1/patients/:phone/all_reports",()=>{
+
+        //sending get all report request without auth token
+        it("it should say invalid request because of missing auth token- Patient All Report",(done)=>{
+            Patients.create({name : "temp",phone:"2255664455"},(err,patient)=>{
+                Reports.create({patient_name :"temp",created_by_doc:"Doc",status:"Negative"},(err,report)=>{
+                    chai.request(server)
+                    .get("/api/v1/patients/2255664455/all_reports")
+                    .end((err,res)=>{
+                        console.log(res.body);
+                        res.should.have.status(401);
+                        res.body.should.have.property("message");
+                        res.body.message.should.be.eql("Invalid request");
+                        done();
+                    });
+                });
+            });
+        });
+
+
+        //sending get all reports request with wrong phone no
+        it("it should say Error patient not found- Patient All Report",(done)=>{
+            Patients.create({name : "temp",phone:"2255664455"},(err,patient)=>{
+                Reports.create({patient_name :"temp",created_by_doc:"Doc",status:"Negative"},(err,report)=>{
+                    chai.request(server)
+                    .get("/api/v1/patients/2255/all_reports")
+                    .set({"authorization":`Bearer ${accessToken}`})
+                    .end((err,res)=>{
+                        console.log(res.body);
+                        res.should.have.status(400);
+                        res.body.should.have.property("message");
+                        res.body.message.should.be.eql("patient not found");
+                        done();
+                    });
+                });
+            });
+        });
+
+
+        //sending get all reports request with correct details
+        it("it should say all reports generated- Patient All Report",(done)=>{
+            Patients.create({name : "temp",phone:"2255664455"},(err,patient)=>{
+                Reports.create({patient_name :"temp",created_by_doc:"Doc",status:"Negative"},(err,report)=>{
+                    chai.request(server)
+                    .get("/api/v1/patients/2255664455/all_reports")
+                    .set({"authorization":`Bearer ${accessToken}`})
+                    .end((err,res)=>{
+                        console.log(res.body);
+                        res.should.have.status(200);
+                        res.body.should.have.property("message");
+                        res.body.message.should.be.eql(" all reports generated ");
+                        res.body.should.have.property("reports");
+                        res.body.reports.length.should.be.eql(1);
+                        res.body.reports[0].should.have.property("patient_name");
+                        res.body.reports[0].should.have.property("created_by_doc");
+                        res.body.reports[0].should.have.property("status");
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+
 });
