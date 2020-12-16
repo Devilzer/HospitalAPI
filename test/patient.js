@@ -87,4 +87,71 @@ describe("Patients",()=>{
     });
 
 
+    //test for patient create_report
+    describe("/POST /patients/:phone/create_report",()=>{
+        const report = {
+            status : "N"
+        }
+
+        //sending create-report request without auth token
+        it("it should say invalid request because of missing auth token - Patient Create-Report",(done)=>{
+            Patients.create({name:"temp",phone:"75253364511"},(err,patient)=>{
+                chai.request(server)
+                .post("/api/v1/patients/75253364511/create_report")
+                .set("content-type","application/x-www-form-urlencoded")
+                .send(report)
+                .end((err,res)=>{
+                    console.log(res.body);
+                    res.should.have.status(401);
+                    res.body.should.have.property("message");
+                    res.body.message.should.be.eql("Invalid request");
+                    done();
+                });
+            });
+        });
+
+
+        //sending create-report request with incorect no
+        it("it should say error in finding patient because of incorrect patient no - Patient Create-Report",(done)=>{
+            Patients.create({name:"temp",phone:"75253364511"},(err,patient)=>{
+                chai.request(server)
+                .post("/api/v1/patients/752533/create_report")
+                .set("content-type","application/x-www-form-urlencoded")
+                .set({"authorization":`Bearer ${accessToken}`})
+                .send(report)
+                .end((err,res)=>{
+                    console.log(res.body);
+                    res.should.have.status(400);
+                    res.body.should.have.property("message");
+                    res.body.message.should.be.eql("error in finding patient");
+                    done();
+                });
+            });
+        });
+
+
+        //sending create-report request with correct details
+        it("it should say Report Created - Patient Create-Report",(done)=>{
+            Patients.create({name:"temp",phone:"75253364511"},(err,patient)=>{
+                chai.request(server)
+                .post("/api/v1/patients/75253364511/create_report")
+                .set("content-type","application/x-www-form-urlencoded")
+                .set({"authorization":`Bearer ${accessToken}`})
+                .send(report)
+                .end((err,res)=>{
+                    console.log(res.body);
+                    res.should.have.status(200);
+                    res.body.should.have.property("message");
+                    res.body.message.should.be.eql("Report created");
+                    res.body.should.have.property("report");
+                    res.body.report.should.have.property("status");
+                    res.body.report.status.should.be.eql("Negative");
+                    done();
+                });
+            });
+        });
+
+    });
+
+
 });
